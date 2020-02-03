@@ -1,20 +1,17 @@
-# _  __  ____    _   _ 
+# _  __  ____    _   _
 # | |/ / |  _ \  | \ | |
 # | ' /  | |_) | |  \| |
 # | . \  |  __/  | |\  |
 # |_|\_\ |_|     |_| \_|
-# 
+#
 # (c) 2018 KPN
 # License: MIT license.
 # Author: Jan Bogaerts
-# 
+#
 # pack object
 
 from kpn_senml.senml_record import SenmlRecord
 from kpn_senml.senml_base import SenmlBase
-import ujson
-import kpn_senml.cbor_encoder as cbor_encoder
-import kpn_senml.cbor_decoder as cbor_decoder
 
 class SenmlPackIterator:
     '''an iterator to walk over all records in a pack'''
@@ -41,9 +38,6 @@ class SenmlPack(SenmlBase):
     When the pack object only contains records, it represents the data of a device.
     If the pack object has child pack objects, then it represents a gateway
     '''
-
-    json_mappings = {'bn': 'bn', 'bt': 'bt', 'bu': 'bu', 'bv': 'bv', 'bs': 'bs',
-                      'n': 'n', 'u': 'u', 'v': 'v', 'vs': 'vs', 'vb': 'vb', 'vd': 'vd', 's': 's', 't': 't', 'ut': 'ut'}
 
     def __init__(self, name, callback=None):
         '''
@@ -132,17 +126,6 @@ class SenmlPack(SenmlBase):
             if not (isinstance(value, int) or isinstance(value, float)):
                 raise Exception("invalid type for " + field_name + ", only numbers allowed")
 
-
-    def from_json(self, data):
-        '''
-        parse a json string and convert it to a senml pack structure
-        :param data: a string containing json data.
-        :return: None, will r
-        '''
-        records = ujson.loads(data)                                              # load the raw senml data
-        self._process_incomming_data(records, SenmlPack.json_mappings)
-
-
     def _process_incomming_data(self, records, naming_map):
         '''
         generic processor for incomming data (actuators.
@@ -209,16 +192,6 @@ class SenmlPack(SenmlBase):
                 self.actuate(rec, device=None)
 
 
-    def to_json(self):
-        '''
-        render the content of this object to a string.
-        :return: a string representing the senml pack object
-        '''
-        converted = []
-        self._build_rec_dict(SenmlPack.json_mappings, converted)
-        return ujson.dumps(converted)
-
-
     def _build_rec_dict(self, naming_map, appendTo):
         '''
         converts the object to a senml object with the proper naming in place.
@@ -247,27 +220,6 @@ class SenmlPack(SenmlBase):
             first_rec[naming_map['bt']] = self.base_time
         appendTo.extend(internalList)
 
-    def from_cbor(self, data):
-        '''
-        parse a cbor data byte array to a senml pack structure.
-        :param data: a byte array.
-        :return: None
-        '''
-        records = cbor_decoder.loads(data)  # load the raw senml data
-        naming_map = {'bn': -2, 'bt': -3, 'bu': -4, 'bv': -5, 'bs': -16,
-                      'n': 0, 'u': 1, 'v': 2, 'vs': 3, 'vb': 4, 'vd': 8, 's': 5, 't': 6, 'ut': 7}
-        self._process_incomming_data(records, naming_map)
-
-    def to_cbor(self):
-        '''
-        render the content of this object to a cbor byte array
-        :return: a byte array
-        '''
-        naming_map = {'bn': -2, 'bt': -3, 'bu': -4, 'bv': -5, 'bs': -16,
-                      'n': 0, 'u': 1, 'v': 2, 'vs': 3, 'vb': 4, 'vd': 8, 's': 5, 't': 6, 'ut': 7}
-        converted = []
-        self._build_rec_dict(naming_map, converted)
-        return cbor_encoder.dumps(converted)
 
     def add(self, item):
         '''
@@ -295,7 +247,7 @@ class SenmlPack(SenmlBase):
             raise Exception('item is not part of this pack')
 
         self._data.remove(item)
-        item._parent = None    
+        item._parent = None
 
     def clear(self):
         '''
@@ -304,4 +256,4 @@ class SenmlPack(SenmlBase):
         '''
         for item in self._data:
             item._parent = None
-        self._data = []        
+        self._data = []

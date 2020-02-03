@@ -1,13 +1,13 @@
-# _  __  ____    _   _ 
+# _  __  ____    _   _
 # | |/ / |  _ \  | \ | |
 # | ' /  | |_) | |  \| |
 # | . \  |  __/  | |\  |
 # |_|\_\ |_|     |_| \_|
-# 
+#
 # (c) 2018 KPN
 # License: MIT license.
 # Author: Jan Bogaerts
-# 
+#
 # sensor names
 
 from kpn_senml.senml_unit import enum
