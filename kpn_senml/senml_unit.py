@@ -1,13 +1,13 @@
-# _  __  ____    _   _ 
+# _  __  ____    _   _
 # | |/ / |  _ \  | \ | |
 # | ' /  | |_) | |  \| |
 # | . \  |  __/  | |\  |
 # |_|\_\ |_|     |_| \_|
-# 
+#
 # (c) 2018 KPN
 # License: MIT license.
 # Author: Jan Bogaerts
-# 
+#
 # unit  names
 
 def enum(**enums):
@@ -69,4 +69,24 @@ SenmlUnits = enum(SENML_UNIT_METER="m",
                 SENML_UNIT_EVENT_RATE_PER_MINUTE="1/min",
                 SENML_UNIT_BPM="beat/min",
                 SENML_UNIT_BEATS="beats",
-                SENML_UNIT_SIEMENS_PER_METER="S/m")
+                SENML_UNIT_SIEMENS_PER_METER="S/m",
+                SENML_UNIT_BYTE="B")
+
+# Subset of Secondary Units from [RFC8798]
+SenmlSecondaryUnits = enum(SENML_SEC_UNIT_MILLISECOND ="ms",
+                SENML_SEC_UNIT_MINUTE ="min",
+                SENML_SEC_UNIT_HOUR ="h",
+                SENML_SEC_UNIT_KILOWATT ="kW",
+                SENML_SEC_UNIT_KILOVOLT_AMPERE ="kVA",
+                SENML_SEC_UNIT_AMPERE_HOUR ="Ah",
+                SENML_SEC_UNIT_WATT_HOUR ="Wh",
+                SENML_SEC_UNIT_KILOWATT_HOUR ="kWh",
+                SENML_SEC_UNIT_KILOVOLT_HOUR ="kVAh",
+                SENML_SEC_UNIT_MILLIVOLT ="mV",
+                SENML_SEC_UNIT_MILLIAMPERE ="mA",
+                SENML_SEC_UNIT_DECIBEL_MILLIWATT ="dBm",
+                SENML_SEC_UNIT_PARTS_PER_MILLION ="ppm",
+                SENML_SEC_UNIT_HECTOPASCAL ="hPa",
+                SENML_SEC_UNIT_MILLIMETER ="mm",
+                SENML_SEC_UNIT_KILOMETER ="km",
+                SENML_SEC_UNIT_KILOMETER_PER_HOUR ="km/h")
